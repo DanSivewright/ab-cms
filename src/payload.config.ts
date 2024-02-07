@@ -13,6 +13,10 @@ import { Users } from "./collections/users";
 import { Menu } from "./globals/menu";
 
 export default buildConfig({
+  serverURL: process.env.PAYLOAD_PUBLIC_BASE_DNS,
+  rateLimit: {
+    trustProxy: true,
+  },
   admin: {
     user: Users.slug,
     bundler: webpackBundler(),
