@@ -22,6 +22,10 @@ export interface Config {
 }
 export interface User {
   id: string;
+  name?: string | null;
+  stripeCustomerId?: string | null;
+  isActive?: boolean | null;
+  subscriptionId?: string | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -53,10 +57,15 @@ export interface Page {
                     newTab?: boolean | null;
                     appearance?: ('secondary' | 'ghost' | 'link' | 'destructive' | 'default') | null;
                     size?: ('xs' | 'sm' | 'default' | 'lg' | 'xl') | null;
-                    reference?: {
-                      relationTo: 'pages';
-                      value: string | Page;
-                    } | null;
+                    reference?:
+                      | ({
+                          relationTo: 'pages';
+                          value: string | Page;
+                        } | null)
+                      | ({
+                          relationTo: 'events';
+                          value: string | Event;
+                        } | null);
                     url?: string | null;
                     label: string;
                   };
@@ -81,10 +90,15 @@ export interface Page {
                     newTab?: boolean | null;
                     appearance?: ('secondary' | 'ghost' | 'link' | 'destructive' | 'default') | null;
                     size?: ('xs' | 'sm' | 'default' | 'lg' | 'xl') | null;
-                    reference?: {
-                      relationTo: 'pages';
-                      value: string | Page;
-                    } | null;
+                    reference?:
+                      | ({
+                          relationTo: 'pages';
+                          value: string | Page;
+                        } | null)
+                      | ({
+                          relationTo: 'events';
+                          value: string | Event;
+                        } | null);
                     url?: string | null;
                     label: string;
                   };
@@ -100,6 +114,7 @@ export interface Page {
           }
         | {
             title: string;
+            image?: string | Media | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'minimal';
@@ -122,10 +137,15 @@ export interface Page {
                     newTab?: boolean | null;
                     appearance?: ('secondary' | 'ghost' | 'link' | 'destructive' | 'default') | null;
                     size?: ('xs' | 'sm' | 'default' | 'lg' | 'xl') | null;
-                    reference?: {
-                      relationTo: 'pages';
-                      value: string | Page;
-                    } | null;
+                    reference?:
+                      | ({
+                          relationTo: 'pages';
+                          value: string | Page;
+                        } | null)
+                      | ({
+                          relationTo: 'events';
+                          value: string | Event;
+                        } | null);
                     url?: string | null;
                     label: string;
                   };
@@ -156,10 +176,15 @@ export interface Page {
                     newTab?: boolean | null;
                     appearance?: ('secondary' | 'ghost' | 'link' | 'destructive' | 'default') | null;
                     size?: ('xs' | 'sm' | 'default' | 'lg' | 'xl') | null;
-                    reference?: {
-                      relationTo: 'pages';
-                      value: string | Page;
-                    } | null;
+                    reference?:
+                      | ({
+                          relationTo: 'pages';
+                          value: string | Page;
+                        } | null)
+                      | ({
+                          relationTo: 'events';
+                          value: string | Event;
+                        } | null);
                     url?: string | null;
                     label: string;
                   };
@@ -171,38 +196,41 @@ export interface Page {
             blockType: 'cta';
           }
         | {
-            richText: {
-              [k: string]: unknown;
-            }[];
+            richText?:
+              | {
+                  [k: string]: unknown;
+                }[]
+              | null;
             populateBy?: ('collection' | 'selection') | null;
-            relationTo?: ('pages' | 'events') | null;
+            relationTo?: ('events' | 'media') | null;
             categories?: (string | Category)[] | null;
             limit?: number | null;
             selectedDocs?:
               | (
                   | {
-                      relationTo: 'pages';
-                      value: string | Page;
-                    }
-                  | {
                       relationTo: 'events';
                       value: string | Event;
+                    }
+                  | {
+                      relationTo: 'media';
+                      value: string | Media;
                     }
                 )[]
               | null;
             populatedDocs?:
               | (
                   | {
-                      relationTo: 'pages';
-                      value: string | Page;
-                    }
-                  | {
                       relationTo: 'events';
                       value: string | Event;
+                    }
+                  | {
+                      relationTo: 'media';
+                      value: string | Media;
                     }
                 )[]
               | null;
             populatedDocsTotal?: number | null;
+            renderAs?: ('grid' | 'list' | 'hscroll' | 'bento') | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'archive';
@@ -221,10 +249,15 @@ export interface Page {
                     newTab?: boolean | null;
                     appearance?: ('secondary' | 'ghost' | 'link' | 'destructive' | 'default') | null;
                     size?: ('xs' | 'sm' | 'default' | 'lg' | 'xl') | null;
-                    reference?: {
-                      relationTo: 'pages';
-                      value: string | Page;
-                    } | null;
+                    reference?:
+                      | ({
+                          relationTo: 'pages';
+                          value: string | Page;
+                        } | null)
+                      | ({
+                          relationTo: 'events';
+                          value: string | Event;
+                        } | null);
                     url?: string | null;
                     label: string;
                   };
@@ -252,10 +285,15 @@ export interface Page {
                     newTab?: boolean | null;
                     appearance?: ('secondary' | 'ghost' | 'link' | 'destructive' | 'default') | null;
                     size?: ('xs' | 'sm' | 'default' | 'lg' | 'xl') | null;
-                    reference?: {
-                      relationTo: 'pages';
-                      value: string | Page;
-                    } | null;
+                    reference?:
+                      | ({
+                          relationTo: 'pages';
+                          value: string | Page;
+                        } | null)
+                      | ({
+                          relationTo: 'events';
+                          value: string | Event;
+                        } | null);
                     url?: string | null;
                     label: string;
                   };
@@ -267,30 +305,23 @@ export interface Page {
             blockType: 'short-heading-hero';
           }
         | {
-            items?:
-              | {
-                  blocks?: {
-                    relationTo: 'events';
-                    value: string | Event;
-                  } | null;
-                  id?: string | null;
-                }[]
-              | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'bento-block';
-          }
-        | {
+            invertBackground?: boolean | null;
             text: string;
+            position?: ('left' | 'right') | null;
             link: {
               type?: ('reference' | 'custom') | null;
               newTab?: boolean | null;
               appearance?: ('secondary' | 'ghost' | 'link' | 'destructive' | 'default') | null;
               size?: ('xs' | 'sm' | 'default' | 'lg' | 'xl') | null;
-              reference?: {
-                relationTo: 'pages';
-                value: string | Page;
-              } | null;
+              reference?:
+                | ({
+                    relationTo: 'pages';
+                    value: string | Page;
+                  } | null)
+                | ({
+                    relationTo: 'events';
+                    value: string | Event;
+                  } | null);
               url?: string | null;
               label: string;
             };
@@ -298,8 +329,371 @@ export interface Page {
             blockName?: string | null;
             blockType: 'cta-text-block';
           }
+        | {
+            background: 'EDEDED' | 'C9DAF0' | 'E08C5B' | '41BD62' | 'FFF9D7';
+            richText: {
+              [k: string]: unknown;
+            }[];
+            image: string | Media;
+            link: {
+              type?: ('reference' | 'custom') | null;
+              newTab?: boolean | null;
+              appearance?: ('secondary' | 'ghost' | 'link' | 'destructive' | 'default') | null;
+              size?: ('xs' | 'sm' | 'default' | 'lg' | 'xl') | null;
+              reference?:
+                | ({
+                    relationTo: 'pages';
+                    value: string | Page;
+                  } | null)
+                | ({
+                    relationTo: 'events';
+                    value: string | Event;
+                  } | null);
+              url?: string | null;
+              label: string;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'cta-image-block';
+          }
       )[]
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+export interface Event {
+  id: string;
+  slug?: string | null;
+  title: string;
+  details: {
+    image?: string | Media | null;
+    date: string;
+    categories?: (string | Category)[] | null;
+  };
+  content: {
+    hero?:
+      | (
+          | {
+              title: string;
+              body?:
+                | {
+                    [k: string]: unknown;
+                  }[]
+                | null;
+              links?:
+                | {
+                    link: {
+                      type?: ('reference' | 'custom') | null;
+                      newTab?: boolean | null;
+                      appearance?: ('secondary' | 'ghost' | 'link' | 'destructive' | 'default') | null;
+                      size?: ('xs' | 'sm' | 'default' | 'lg' | 'xl') | null;
+                      reference?:
+                        | ({
+                            relationTo: 'pages';
+                            value: string | Page;
+                          } | null)
+                        | ({
+                            relationTo: 'events';
+                            value: string | Event;
+                          } | null);
+                      url?: string | null;
+                      label: string;
+                    };
+                    id?: string | null;
+                  }[]
+                | null;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'short-heading-hero';
+            }
+          | {
+              title: string;
+              body?:
+                | {
+                    [k: string]: unknown;
+                  }[]
+                | null;
+              links?:
+                | {
+                    link: {
+                      type?: ('reference' | 'custom') | null;
+                      newTab?: boolean | null;
+                      appearance?: ('secondary' | 'ghost' | 'link' | 'destructive' | 'default') | null;
+                      size?: ('xs' | 'sm' | 'default' | 'lg' | 'xl') | null;
+                      reference?:
+                        | ({
+                            relationTo: 'pages';
+                            value: string | Page;
+                          } | null)
+                        | ({
+                            relationTo: 'events';
+                            value: string | Event;
+                          } | null);
+                      url?: string | null;
+                      label: string;
+                    };
+                    id?: string | null;
+                  }[]
+                | null;
+              image: string | Media;
+              fullscreen?: boolean | null;
+              position?: string | null;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'image-hero';
+            }
+          | {
+              title: string;
+              image?: string | Media | null;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'minimal';
+            }
+        )[]
+      | null;
+    description?:
+      | {
+          [k: string]: unknown;
+        }[]
+      | null;
+    layout?:
+      | (
+          | {
+              invertBackground?: boolean | null;
+              columns?:
+                | {
+                    size?: ('oneThird' | 'half' | 'twoThirds' | 'full') | null;
+                    richText: {
+                      [k: string]: unknown;
+                    }[];
+                    enableLink?: boolean | null;
+                    link?: {
+                      type?: ('reference' | 'custom') | null;
+                      newTab?: boolean | null;
+                      appearance?: ('secondary' | 'ghost' | 'link' | 'destructive' | 'default') | null;
+                      size?: ('xs' | 'sm' | 'default' | 'lg' | 'xl') | null;
+                      reference?:
+                        | ({
+                            relationTo: 'pages';
+                            value: string | Page;
+                          } | null)
+                        | ({
+                            relationTo: 'events';
+                            value: string | Event;
+                          } | null);
+                      url?: string | null;
+                      label: string;
+                    };
+                    id?: string | null;
+                  }[]
+                | null;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'content';
+            }
+          | {
+              position?: ('default' | 'fullscreen') | null;
+              ratio?: ('aspect-video' | 'aspect-square' | 'aspect-auto') | null;
+              media: string | Media;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'media-block';
+            }
+          | {
+              invertBackground?: boolean | null;
+              richText: {
+                [k: string]: unknown;
+              }[];
+              links?:
+                | {
+                    link: {
+                      type?: ('reference' | 'custom') | null;
+                      newTab?: boolean | null;
+                      appearance?: ('secondary' | 'ghost' | 'link' | 'destructive' | 'default') | null;
+                      size?: ('xs' | 'sm' | 'default' | 'lg' | 'xl') | null;
+                      reference?:
+                        | ({
+                            relationTo: 'pages';
+                            value: string | Page;
+                          } | null)
+                        | ({
+                            relationTo: 'events';
+                            value: string | Event;
+                          } | null);
+                      url?: string | null;
+                      label: string;
+                    };
+                    id?: string | null;
+                  }[]
+                | null;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'cta';
+            }
+          | {
+              richText?:
+                | {
+                    [k: string]: unknown;
+                  }[]
+                | null;
+              populateBy?: ('collection' | 'selection') | null;
+              relationTo?: ('events' | 'media') | null;
+              categories?: (string | Category)[] | null;
+              limit?: number | null;
+              selectedDocs?:
+                | (
+                    | {
+                        relationTo: 'events';
+                        value: string | Event;
+                      }
+                    | {
+                        relationTo: 'media';
+                        value: string | Media;
+                      }
+                  )[]
+                | null;
+              populatedDocs?:
+                | (
+                    | {
+                        relationTo: 'events';
+                        value: string | Event;
+                      }
+                    | {
+                        relationTo: 'media';
+                        value: string | Media;
+                      }
+                  )[]
+                | null;
+              populatedDocsTotal?: number | null;
+              renderAs?: ('grid' | 'list' | 'hscroll' | 'bento') | null;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'archive';
+            }
+          | {
+              title: string;
+              body?:
+                | {
+                    [k: string]: unknown;
+                  }[]
+                | null;
+              links?:
+                | {
+                    link: {
+                      type?: ('reference' | 'custom') | null;
+                      newTab?: boolean | null;
+                      appearance?: ('secondary' | 'ghost' | 'link' | 'destructive' | 'default') | null;
+                      size?: ('xs' | 'sm' | 'default' | 'lg' | 'xl') | null;
+                      reference?:
+                        | ({
+                            relationTo: 'pages';
+                            value: string | Page;
+                          } | null)
+                        | ({
+                            relationTo: 'events';
+                            value: string | Event;
+                          } | null);
+                      url?: string | null;
+                      label: string;
+                    };
+                    id?: string | null;
+                  }[]
+                | null;
+              image: string | Media;
+              fullscreen?: boolean | null;
+              position?: string | null;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'image-hero';
+            }
+          | {
+              title: string;
+              body?:
+                | {
+                    [k: string]: unknown;
+                  }[]
+                | null;
+              links?:
+                | {
+                    link: {
+                      type?: ('reference' | 'custom') | null;
+                      newTab?: boolean | null;
+                      appearance?: ('secondary' | 'ghost' | 'link' | 'destructive' | 'default') | null;
+                      size?: ('xs' | 'sm' | 'default' | 'lg' | 'xl') | null;
+                      reference?:
+                        | ({
+                            relationTo: 'pages';
+                            value: string | Page;
+                          } | null)
+                        | ({
+                            relationTo: 'events';
+                            value: string | Event;
+                          } | null);
+                      url?: string | null;
+                      label: string;
+                    };
+                    id?: string | null;
+                  }[]
+                | null;
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'short-heading-hero';
+            }
+          | {
+              invertBackground?: boolean | null;
+              text: string;
+              position?: ('left' | 'right') | null;
+              link: {
+                type?: ('reference' | 'custom') | null;
+                newTab?: boolean | null;
+                appearance?: ('secondary' | 'ghost' | 'link' | 'destructive' | 'default') | null;
+                size?: ('xs' | 'sm' | 'default' | 'lg' | 'xl') | null;
+                reference?:
+                  | ({
+                      relationTo: 'pages';
+                      value: string | Page;
+                    } | null)
+                  | ({
+                      relationTo: 'events';
+                      value: string | Event;
+                    } | null);
+                url?: string | null;
+                label: string;
+              };
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'cta-text-block';
+            }
+          | {
+              background: 'EDEDED' | 'C9DAF0' | 'E08C5B' | '41BD62' | 'FFF9D7';
+              richText: {
+                [k: string]: unknown;
+              }[];
+              image: string | Media;
+              link: {
+                type?: ('reference' | 'custom') | null;
+                newTab?: boolean | null;
+                appearance?: ('secondary' | 'ghost' | 'link' | 'destructive' | 'default') | null;
+                size?: ('xs' | 'sm' | 'default' | 'lg' | 'xl') | null;
+                reference?:
+                  | ({
+                      relationTo: 'pages';
+                      value: string | Page;
+                    } | null)
+                  | ({
+                      relationTo: 'events';
+                      value: string | Event;
+                    } | null);
+                url?: string | null;
+                label: string;
+              };
+              id?: string | null;
+              blockName?: string | null;
+              blockType: 'cta-image-block';
+            }
+        )[]
+      | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -355,21 +749,6 @@ export interface Category {
   updatedAt: string;
   createdAt: string;
 }
-export interface Event {
-  id: string;
-  slug?: string | null;
-  title: string;
-  image?: string | Media | null;
-  date: string;
-  categories?: (string | Category)[] | null;
-  description?:
-    | {
-        [k: string]: unknown;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
 export interface PayloadPreference {
   id: string;
   user: {
@@ -405,10 +784,15 @@ export interface Menu {
           newTab?: boolean | null;
           appearance?: ('secondary' | 'ghost' | 'link' | 'destructive' | 'default') | null;
           size?: ('xs' | 'sm' | 'default' | 'lg' | 'xl') | null;
-          reference?: {
-            relationTo: 'pages';
-            value: string | Page;
-          } | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: string | Page;
+              } | null)
+            | ({
+                relationTo: 'events';
+                value: string | Event;
+              } | null);
           url?: string | null;
           label: string;
         };

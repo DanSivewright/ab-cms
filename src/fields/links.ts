@@ -135,7 +135,7 @@ export const Link: LinkType = ({
       name: "reference",
       label: "Document to link to",
       type: "relationship",
-      relationTo: ["pages"],
+      relationTo: ["pages", "events"],
       required: true,
       maxDepth: 1,
       admin: {

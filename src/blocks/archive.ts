@@ -48,6 +48,10 @@ export const Archive: Block = {
           label: "Events",
           value: "events",
         },
+        {
+          label: "Media",
+          value: "media",
+        },
       ],
     },
     {
@@ -74,7 +78,7 @@ export const Archive: Block = {
       type: "relationship",
       name: "selectedDocs",
       label: "Selection",
-      relationTo: ["events"],
+      relationTo: ["events", "media"],
       hasMany: true,
       admin: {
         condition: (_, siblingData) => siblingData.populateBy === "selection",
@@ -84,7 +88,7 @@ export const Archive: Block = {
       type: "relationship",
       name: "populatedDocs",
       label: "Populated Docs",
-      relationTo: ["events"],
+      relationTo: ["events", "media"],
       hasMany: true,
       admin: {
         disabled: true,
@@ -108,6 +112,9 @@ export const Archive: Block = {
       label: "Render As",
       type: "select",
       defaultValue: "grid",
+      admin: {
+        condition: (_, siblingData) => siblingData.populateBy === "selection",
+      },
       options: [
         {
           label: "Grid",
@@ -116,6 +123,10 @@ export const Archive: Block = {
         {
           label: "List",
           value: "list",
+        },
+        {
+          label: "Horizontal List Scroll",
+          value: "hscroll",
         },
         {
           label: "Bento",

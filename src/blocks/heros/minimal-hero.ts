@@ -13,5 +13,11 @@ export const MinimalHero: Block = {
       type: "text",
       required: true,
     },
+    {
+      name: "image",
+      label: "Image (Optional)",
+      type: "upload",
+      relationTo: "media",
+    },
   ],
 };

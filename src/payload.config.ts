@@ -5,11 +5,11 @@ import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { payloadCloud } from "@payloadcms/plugin-cloud";
 import { slateEditor } from "@payloadcms/richtext-slate";
 import { buildConfig } from "payload/config";
-import { Users } from "./collections/users";
-import { Pages } from "./collections/pages";
-import { Events } from "./collections/events";
 import { Categories } from "./collections/categories";
+import { Events } from "./collections/events";
 import { Media } from "./collections/media";
+import { Pages } from "./collections/pages";
+import { Users } from "./collections/users";
 import { Menu } from "./globals/menu";
 
 export default buildConfig({

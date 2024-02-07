@@ -9,6 +9,7 @@ import { Archive } from "../../blocks/archive";
 import { MinimalHero } from "../../blocks/heros/minimal-hero";
 import { BentoBlock } from "../../blocks/bento-block";
 import { CTATextBlock } from "../../blocks/cta-text-block";
+import { CTAImageBlock } from "../../blocks/cta-image-block";
 
 export type PageType = {
   name: string;
@@ -34,14 +35,12 @@ export const Pages: CollectionConfig = {
       type: "text",
       required: true,
     },
-
-    // {
-    //   name: "hero",
-    //   type: "blocks",
-    //   maxRows: 1,
-    //   blocks: [ShortHeadingHero, ImageHero, MinimalHero],
-    // },
-
+    {
+      name: "hero",
+      type: "blocks",
+      maxRows: 1,
+      blocks: [ShortHeadingHero, ImageHero, MinimalHero],
+    },
     {
       name: "layout",
       type: "blocks",
@@ -52,45 +51,9 @@ export const Pages: CollectionConfig = {
         Archive,
         ImageHero,
         ShortHeadingHero,
-        // BentoBlock,
         CTATextBlock,
+        CTAImageBlock,
       ],
     },
-
-    // {
-    //   type: "tabs",
-    //   tabs: [
-    //     {
-    //       label: "Hero",
-    //       fields: [
-    //         {
-    //           name: "hero",
-    //           type: "blocks",
-    //           maxRows: 1,
-    //           blocks: [ShortHeadingHero, ImageHero, MinimalHero],
-    //         },
-    //       ],
-    //     },
-    //     {
-    //       label: "Content",
-    //       fields: [
-    //         {
-    //           name: "layout",
-    //           type: "blocks",
-    //           blocks: [
-    //             // ContentBlock,
-    //             // MediaBlock,
-    //             // CTA,
-    //             // Archive,
-    //             // ImageHero,
-    //             // ShortHeadingHero,
-    //             // BentoBlock,
-    //             // CTATextBlock,
-    //           ],
-    //         },
-    //       ],
-    //     },
-    //   ],
-    // },
   ],
 };

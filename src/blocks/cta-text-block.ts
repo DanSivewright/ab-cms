@@ -11,10 +11,31 @@ export const CTATextBlock: Block = {
     "https://utfs.io/f/eba492c2-788a-4a90-b80f-ce42fae79457-e99e7q.jpeg",
   fields: [
     {
+      name: "invertBackground",
+      type: "checkbox",
+      defaultValue: false,
+    },
+    {
       name: "text",
       label: "Text",
       type: "textarea",
       required: true,
+    },
+    {
+      name: "position",
+      label: "Position",
+      type: "select",
+      defaultValue: "right",
+      options: [
+        {
+          label: "Left",
+          value: "left",
+        },
+        {
+          label: "Right",
+          value: "right",
+        },
+      ],
     },
     Link(),
   ],
