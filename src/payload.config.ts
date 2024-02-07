@@ -24,9 +24,7 @@ export default buildConfig({
   csrf: [
     "http://localhost:3000", //
   ],
-  cors: [
-    "http://localhost:3000", //
-  ],
+  cors: ["http://localhost:3000"],
   editor: slateEditor({}),
   collections: [
     Users, //
