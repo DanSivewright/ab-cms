@@ -1,4 +1,6 @@
-FROM node:18.8-alpine as base
+# update node version to 21
+
+FROM node:21-alpine3.18 as base
 
 FROM base as builder
 
