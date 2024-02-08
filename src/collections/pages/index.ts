@@ -10,6 +10,7 @@ import { MinimalHero } from "../../blocks/heros/minimal-hero";
 import { BentoBlock } from "../../blocks/bento-block";
 import { CTATextBlock } from "../../blocks/cta-text-block";
 import { CTAImageBlock } from "../../blocks/cta-image-block";
+import { revaildateTag } from "../../hooks/revalidate-tag";
 
 export type PageType = {
   name: string;
@@ -26,6 +27,9 @@ export const Pages: CollectionConfig = {
   },
   admin: {
     useAsTitle: "title",
+  },
+  hooks: {
+    afterChange: [(opts) => revaildateTag({ ...opts, key: "pages" })],
   },
   fields: [
     slug,
