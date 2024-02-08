@@ -40,6 +40,7 @@ export interface User {
 export interface Page {
   id: string;
   slug: string;
+  private?: boolean | null;
   title: string;
   hero?:
     | (
@@ -364,6 +365,7 @@ export interface Page {
 export interface Event {
   id: string;
   slug: string;
+  private?: boolean | null;
   title: string;
   details: {
     image?: string | Media | null;

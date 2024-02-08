@@ -34,6 +34,15 @@ export const Pages: CollectionConfig = {
   fields: [
     slug,
     {
+      admin: {
+        position: "sidebar",
+      },
+      name: "private",
+      label: "Private",
+      type: "checkbox",
+      defaultValue: true,
+    },
+    {
       name: "title",
       label: "Title",
       type: "text",

@@ -24,6 +24,15 @@ export const Events: CollectionConfig = {
   fields: [
     slug,
     {
+      name: "private",
+      label: "Private",
+      type: "checkbox",
+      defaultValue: true,
+      admin: {
+        position: "sidebar",
+      },
+    },
+    {
       name: "title",
       label: "Title",
       type: "text",
