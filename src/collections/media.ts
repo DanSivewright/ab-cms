@@ -32,6 +32,7 @@ export const Media: CollectionConfig = {
     useAsTitle: "filename",
   },
   upload: {
+    disableLocalStorage: true,
     adminThumbnail: "card",
     imageSizes: [
       {

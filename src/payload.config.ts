@@ -1,4 +1,5 @@
 import path from "path";
+import imagekitPlugin from "payloadcms-plugin-imagekit";
 
 import { webpackBundler } from "@payloadcms/bundler-webpack";
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
@@ -40,7 +41,41 @@ export default buildConfig({
   graphQL: {
     schemaOutputFile: path.resolve(__dirname, "generated-schema.graphql"),
   },
-  plugins: [payloadCloud()],
+  plugins: [
+    //
+    payloadCloud({
+      storage: false,
+    }),
+    imagekitPlugin({
+      config: {
+        publicKey: process.env.PAYLOAD_PUBLIC_IMAGEKIT_PUBLIC_KEY,
+        privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
+        endpoint: `https://ik.imagekit.io/${
+          process.env.PAYLOADPUBLIC_IMAGEKIT_ID as string
+        }/`,
+      },
+      collections: {
+        media: {
+          uploadOption: {
+            folder: "uploads",
+            extensions: [
+              {
+                name: "aws-auto-tagging",
+                minConfidence: 80, // only tags with a confidence value higher than 80% will be attached
+                maxTags: 10, // a maximum of 10 tags from aws will be attached
+              },
+              {
+                name: "google-auto-tagging",
+                minConfidence: 70, // only tags with a confidence value higher than 70% will be attached
+                maxTags: 10, // a maximum of 10 tags from google will be attached
+              },
+            ],
+          },
+          savedProperties: ["url", "AITags"],
+        },
+      },
+    }),
+  ],
   db: mongooseAdapter({
     url: process.env.MONGODB_URI,
   }),
