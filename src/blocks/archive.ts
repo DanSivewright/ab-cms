@@ -112,9 +112,6 @@ export const Archive: Block = {
       label: "Render As",
       type: "select",
       defaultValue: "grid",
-      admin: {
-        condition: (_, siblingData) => siblingData.populateBy === "selection",
-      },
       options: [
         {
           label: "Grid",
