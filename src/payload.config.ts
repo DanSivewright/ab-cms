@@ -12,6 +12,7 @@ import { Media } from "./collections/media";
 import { Pages } from "./collections/pages";
 import { Users } from "./collections/users";
 import { Menu } from "./globals/menu";
+import { Tickets } from "./collections/tickets";
 
 export default buildConfig({
   serverURL: process.env.PAYLOAD_PUBLIC_BASE_DNS,
@@ -28,6 +29,7 @@ export default buildConfig({
   cors: ["http://localhost:3000"],
   editor: slateEditor({}),
   collections: [
+    Tickets,
     Users, //
     Pages,
     Events,

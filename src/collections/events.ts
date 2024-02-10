@@ -9,6 +9,8 @@ import { ShortHeadingHero } from "../blocks/heros/short-hero";
 import { CTATextBlock } from "../blocks/cta-text-block";
 import { CTAImageBlock } from "../blocks/cta-image-block";
 import { MinimalHero } from "../blocks/heros/minimal-hero";
+import { Event } from "payload/generated-types";
+import { stripe } from "../stripe";
 
 export const Events: CollectionConfig = {
   slug: "events",
@@ -21,8 +23,81 @@ export const Events: CollectionConfig = {
   admin: {
     useAsTitle: "title",
   },
+  hooks: {
+    beforeChange: [
+      async (args) => {
+        if (args.operation === "create") {
+          const data = args.data as Event;
+
+          const createdProduct = await stripe.products.create({
+            name: data.title,
+            default_price_data: {
+              currency: "ZAR",
+              unit_amount: Math.round(100 * 100),
+            },
+          });
+
+          const updated: Event = {
+            ...data,
+            stripeId: createdProduct.id,
+            priceId: createdProduct.default_price as string,
+          };
+
+          return updated;
+        } else if (args.operation === "update") {
+          const data = args.data as Event;
+
+          let updatedProduct;
+          if (!data.stripeId || !data.priceId) {
+            updatedProduct = await stripe.products.create({
+              name: data.title,
+              default_price_data: {
+                currency: "ZAR",
+                unit_amount: Math.round(100 * 100),
+              },
+            });
+          } else {
+            updatedProduct = await stripe.products.update(data.stripeId!, {
+              name: data.title,
+              default_price: data.priceId!,
+            });
+          }
+
+          const updated: Event = {
+            ...data,
+            stripeId: updatedProduct.id,
+            priceId: updatedProduct.default_price as string,
+          };
+
+          return updated;
+        }
+      },
+    ],
+  },
   fields: [
     slug,
+    {
+      name: "title",
+      label: "Title",
+      type: "text",
+      required: true,
+    },
+    {
+      name: "priceId",
+      type: "text",
+      admin: {
+        readOnly: true,
+        position: "sidebar",
+      },
+    },
+    {
+      name: "stripeId",
+      type: "text",
+      admin: {
+        position: "sidebar",
+        readOnly: true,
+      },
+    },
     {
       name: "private",
       label: "Private",
@@ -31,12 +106,6 @@ export const Events: CollectionConfig = {
       admin: {
         position: "sidebar",
       },
-    },
-    {
-      name: "title",
-      label: "Title",
-      type: "text",
-      required: true,
     },
     {
       type: "tabs",
