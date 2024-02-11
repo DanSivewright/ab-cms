@@ -33,7 +33,7 @@ export const Events: CollectionConfig = {
             name: data.title,
             default_price_data: {
               currency: "ZAR",
-              unit_amount: Math.round(100 * 100),
+              unit_amount: Math.round(150 * 100),
             },
           });
 
@@ -53,7 +53,7 @@ export const Events: CollectionConfig = {
               name: data.title,
               default_price_data: {
                 currency: "ZAR",
-                unit_amount: Math.round(100 * 100),
+                unit_amount: Math.round(150 * 100),
               },
             });
           } else {
